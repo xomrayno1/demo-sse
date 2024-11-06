@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Số lượng thông báo : <span id="numberNotification"></span></p>
+    <script>
+        const eventSource = new EventSource('http://localhost:8080/subscribe/123');
+        eventSource.onmessage = function(event) {
+            document.getElementById('numberNotification').innerHTML = event.data;
+            console.log('EventSource success:', event.data);
+        };
+        eventSource.onerror = function(event) {
+            console.log(event.target.readyState)
+            if (event.target.readyState === EventSource.CLOSED) {
+            console.log('SSE closed (' + event.target.readyState + ')')
+            }
+           // eventSource.close();
+        };
+    </script>
+</body>
+</html>
